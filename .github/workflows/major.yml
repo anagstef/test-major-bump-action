@@ -1,7 +1,7 @@
 name: Major Version Bump Confirmation
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, edited, synchronize]
 
 permissions:
@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           fetch-depth: 0
           # Checkout the PR's head to access the changes
@@ -24,6 +26,8 @@ jobs:
 
       - name: Check for major changesets
         id: check_major
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Checking for major changesets..."
           MAJOR_CHANGESETS=$(git diff origin/main --name-only | grep '^.changeset/' | xargs grep -l 'major' || true)
@@ -39,6 +43,8 @@ jobs:
       - name: Update PR description with confirmation checkbox
         if: ${{ steps.check_major.outputs.has_major_changeset == 'true' }}
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
             const prNumber = context.payload.pull_request.number;
@@ -69,6 +75,8 @@ jobs:
     steps:
       - name: Fail if major bump not confirmed
         uses: actions/github-script@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
             const prNumber = context.payload.pull_request.number;
