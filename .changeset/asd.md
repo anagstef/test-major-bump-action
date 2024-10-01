@@ -1,5 +1,5 @@
 ---
-"@clerk/clerk-js": patch
+"@clerk/clerk-js": major
 ---
 
-Maintain focus on password input after error during sign in flow.
+Bla
