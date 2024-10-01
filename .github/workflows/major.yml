@@ -56,7 +56,7 @@ jobs:
 
             let body = pr.body || '';
 
-            const checkboxText = '- [ ] I confirm that this PR should bump the major version.'
+            const checkboxText = '## Package Major Bump Confirmation\n- [ ] I confirm that this PR should bump the major version.'
 
             if (!body.includes(checkboxText) && !body.includes('- [x] I confirm that this PR should bump the major version.')) {
               body += `\n\n${checkboxText}`;
