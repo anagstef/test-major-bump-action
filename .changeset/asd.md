@@ -1,5 +1,5 @@
 ---
-"@clerk/clerk-js": patch
+"@clerk/clerk-js": major
 ---
 
 Bla
