@@ -20,7 +20,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const prNumber = context.payload.issue.number;
+            const issueNumber = context.payload.issue.number;
             let pullRequest = context.payload.pull_request;
       
             if (!pullRequest) {
@@ -33,5 +33,5 @@ jobs:
               pullRequest = pullRequestData.data;
             }
 
-            console.log('number: ', prNumber);
+            console.log('number: ', issueNumber);
             console.log('sha: ', pullRequest.head.sha);
