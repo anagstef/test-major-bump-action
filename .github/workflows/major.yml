@@ -20,7 +20,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const prNumber = context.payload.pull_request.number;
+            const prNumber = context.payload.issue.pull_request.number;
 
             console.log('number: ', prNumber);
-            console.log('sha: ', context.payload.pull_request.head.sha);
+            console.log('sha: ', context.payload.issue.pull_request.head.sha);
