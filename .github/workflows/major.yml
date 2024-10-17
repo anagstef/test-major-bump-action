@@ -21,6 +21,17 @@ jobs:
         with:
           script: |
             const prNumber = context.payload.issue.number;
+            let pullRequest = context.payload.pull_request;
+      
+            if (!pullRequest) {
+              // Fetch the pull request data
+              const pullRequestData = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: issueNumber,
+              });
+              pullRequest = pullRequestData.data;
+            }
 
             console.log('number: ', prNumber);
-            console.log('sha: ', context.payload.issue.pull_request.head.sha);
+            console.log('sha: ', pullRequest.head.sha);
