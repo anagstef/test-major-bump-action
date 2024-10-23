@@ -36,7 +36,7 @@ const slackFormatter = {
     });
     const blocks = [];
 
-    blocks.push(header(title));
+    blocks.push(header(`A new PR inside the openapi-specs repository has been created: ${title}`));
 
     blocks.push(markdown(body));
     blocks.push(markdown('\n'));
