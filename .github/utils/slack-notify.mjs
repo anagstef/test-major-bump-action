@@ -26,7 +26,6 @@
 const slackFormatter = {
   generateMsg: ({ title, body, actor }) => {
     const markdown = text => ({ type: 'section', text: { type: 'mrkdwn', text } });
-    const divider = () => ({ type: 'divider' });
     const header = text => ({ type: 'header', text: { type: 'plain_text', text } });
     const context = (imgUrl, text) => ({
       type: 'context',
@@ -62,7 +61,8 @@ const createActor = username => {
 };
 
 const run = async () => {
-  const { title, body, user } = JSON.parse(process.argv[2]);
+  const { title, user } = JSON.parse(process.argv[2]);
+  const body = process.argv[3];
   const actor = createActor(user.login);
 
   const formatter = formatters['slack'];
