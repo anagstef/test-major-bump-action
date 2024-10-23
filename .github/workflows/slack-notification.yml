@@ -1,0 +1,31 @@
+name: Slack Notification
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  slack-notify:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: false
+      - name: Generate notification payload
+        id: notification
+        env:
+          PULL_REQUEST_DATA: ${{ github.event.pull_request }}
+        run: payload=$(node ./.github/utils/notify.mjs '$PULL_REQUEST_DATA') && echo ::set-output name=payload::${payload//$'\n'/'%0A'}
+      - name: Debug payload
+        run: echo ${{ steps.notification.outputs.payload }}
+      # - name: Send PR to Slack
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.27.0
+      #   with:
+      #     payload: ${{ steps.notification.outputs.payload }}
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CHANGELOG_WEBHOOK_URL }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
