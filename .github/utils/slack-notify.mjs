@@ -54,6 +54,13 @@ const formatters = {
   slack: slackFormatter,
 };
 
+/*
+ * @returns {Actor}
+ */
+const createActor = username => {
+  return { username, avatarUrl: `https://github.com/${username}.png`, profileUrl: `https://github.com/${username}` };
+};
+
 const run = async () => {
   const { title, body, user } = JSON.parse(process.argv[2]);
   const actor = createActor(user.login);
@@ -67,10 +74,3 @@ const run = async () => {
 }
 
 run()
-
-/*
- * @returns {Actor}
- */
-const createActor = username => {
-  return { username, avatarUrl: `https://github.com/${username}.png`, profileUrl: `https://github.com/${username}` };
-};
