@@ -2,7 +2,7 @@ name: Slack Notification
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened]
 
 jobs:
   slack-notify:
@@ -23,11 +23,11 @@ jobs:
           echo "payload=${payload//$'\n'/'%0A'}" >> $GITHUB_OUTPUT
       - name: Debug payload
         run: echo ${{ steps.notification.outputs.payload }}
-      # - name: Send PR to Slack
-      #   id: slack
-      #   uses: slackapi/slack-github-action@v1.27.0
-      #   with:
-      #     payload: ${{ steps.notification.outputs.payload }}
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CHANGELOG_WEBHOOK_URL }}
-      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      - name: Send PR to Slack
+        id: slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: ${{ steps.notification.outputs.payload }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CHANGELOG_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

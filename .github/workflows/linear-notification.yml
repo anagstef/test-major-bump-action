@@ -1,0 +1,27 @@
+name: Create Linear ticket
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  linear-ticket:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Linear ticket
+        id: createIssue
+        uses: ctriolo/action-create-linear-issue@v1
+        with:
+          linear-api-key: ${{ secrets.LINEAR_API_KEY }}
+          linear-team-key: "ECO"
+          linear-issue-title: ${{ github.event.pull_request.title }}
+          linear-issue-description: ${{ github.event.pull_request.body }}
+          linear-attachment-url: ${{ github.event.pull_request.html_url }}
+          linear-attachment-title: ${{ github.event.pull_request.title }}
+
+      - name: Create comment in PR with Linear ticket link
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ${{ steps.createIssue.outputs.linear-issue-url }}"
