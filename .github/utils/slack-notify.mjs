@@ -70,7 +70,7 @@ const run = async () => {
     throw new Error('Invalid formatter, supported formatters are: ' + Object.keys(formatters).join(', '));
   }
 
-  console.log(formatter.generateChangelog({ title, body, actor }));
+  console.log(formatter.generateMsg({ title, body, actor }));
 }
 
 run()
