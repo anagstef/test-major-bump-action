@@ -18,7 +18,9 @@ jobs:
         id: notification
         env:
           PULL_REQUEST_DATA: ${{ toJson(github.event.pull_request) }}
-        run: payload=$(node ./.github/utils/slack-notify.mjs '${{ env.PULL_REQUEST_DATA }}') && echo ::set-output name=payload::${payload//$'\n'/'%0A'}
+        run: |
+          payload=$(node ./.github/utils/slack-notify.mjs '${{ env.PULL_REQUEST_DATA }}')
+          echo "payload=${payload//$'\n'/'%0A'}" >> $GITHUB_OUTPUT
       - name: Debug payload
         run: echo ${{ steps.notification.outputs.payload }}
       # - name: Send PR to Slack
